@@ -11,6 +11,7 @@ test-run
 /modules/core/test-home/
 roles.zip
 roles.json
+build/*
 
 .ideaDataSources/
 dataSources/
