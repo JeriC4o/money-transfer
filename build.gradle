@@ -1,0 +1,91 @@
+plugins {
+    id "net.ltgt.apt" version "0.21"
+    id 'nu.studer.jooq' version '3.0.3'
+    id "org.flywaydb.flyway" version "5.2.4"
+    id 'java'
+    id "idea"
+}
+
+group 'com.yetanotherbank.api'
+version '0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+def databaseUrl = "jdbc:h2:file:$buildDir/money_transfer_service;AUTO_SERVER=TRUE"
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'com.sparkjava:spark-core:2.8.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.2'
+    compile 'com.google.dagger:dagger:2.12'
+    compile 'org.jooq:jooq:3.11.9'
+    compile 'com.h2database:h2:1.4.193'
+
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.12'
+
+    jooqRuntime 'com.h2database:h2:1.4.193'
+
+    testCompile 'junit:junit:4.12'
+
+}
+
+idea {
+    module {
+        sourceDirs += file("$buildDir/generated/sources/annotationProcessor/java/main")
+        testSourceDirs += file("$buildDir/generated/sources/annotationProcessor/java/test")
+    }
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "com.yetanotherbank.api.ApplicationBootstrapper"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+flyway {
+    url = databaseUrl
+    user = 'sa'
+    password = ''
+}
+
+jooq {
+    version = '3.11.9'
+    edition = 'OSS'
+
+    moneyTransfer(sourceSets.main) {
+        jdbc {
+            driver = 'org.h2.Driver'
+            url = databaseUrl
+            user = 'sa'
+            password = ''
+        }
+
+        generator {
+            name = 'org.jooq.codegen.DefaultGenerator'
+            database {
+                name = 'org.jooq.meta.h2.H2Database'
+                includes = '.*'
+                excludes = ''
+            }
+        }
+    }
+}
+
+task start(type: JavaExec, dependsOn: jar) {
+    main = "-jar";
+    args jar.archivePath
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.3.1'
+}
