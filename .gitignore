@@ -1,11 +1,10 @@
 .gradle
+gradle
+gradlew*
 *.ipr
 *.ipr
 *.iml
 *.iws
-reports/*
-deploy/*
-modules/*/build/*
 out
 test-run
 .idea/
