@@ -13,6 +13,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 def databaseUrl = "jdbc:h2:file:$buildDir/money_transfer_service;AUTO_SERVER=TRUE"
+def databaseUser = 'sa'
+def databasePass = ''
+def generatedPropertiesPath = file("$buildDir/resources/main/database.properties")
 
 repositories {
     mavenLocal()
@@ -24,6 +27,11 @@ dependencies {
     compile 'com.sparkjava:spark-core:2.8.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.2'
     compile 'com.google.dagger:dagger:2.12'
+    compile 'org.apache.commons:commons-lang3:3.8.1'
+    compile 'org.apache.commons:commons-configuration2:2.4'
+    compile 'commons-beanutils:commons-beanutils:1.9.3'
+    compile 'commons-io:commons-io:2.6'
+    compile 'org.slf4j:slf4j-simple:1.7.13'
     compile 'org.jooq:jooq:3.11.9'
     compile 'com.h2database:h2:1.4.193'
 
@@ -33,6 +41,29 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
 
+}
+
+task generateConnectionProperties() doLast {
+    def props = new Properties()
+
+    props['database.url'] = databaseUrl.toString()
+    println databaseUrl
+
+    props['database.user'] = databaseUser.toString().replaceAll("\\\\", '')
+    props['database.pass'] = databasePass.toString()
+
+    generatedPropertiesPath.createNewFile()
+
+    generatedPropertiesPath.withWriter { Writer w -> props.store(w, null) }
+}
+
+task start(type: JavaExec, dependsOn: jar) {
+    main = "-jar";
+    args jar.archivePath
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.3.1'
 }
 
 idea {
@@ -50,13 +81,19 @@ jar {
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
+
+    dependsOn generateConnectionProperties
 }
 
 flyway {
     url = databaseUrl
-    user = 'sa'
-    password = ''
+    user = databaseUser
+    password = databasePass
+
+    baselineOnMigrate = true
 }
+
+assemble.dependsOn flywayMigrate
 
 jooq {
     version = '3.11.9'
@@ -66,8 +103,8 @@ jooq {
         jdbc {
             driver = 'org.h2.Driver'
             url = databaseUrl
-            user = 'sa'
-            password = ''
+            user = databaseUser
+            password = databasePass
         }
 
         generator {
@@ -77,15 +114,9 @@ jooq {
                 includes = '.*'
                 excludes = ''
             }
+            generate {
+                daos = true
+            }
         }
     }
-}
-
-task start(type: JavaExec, dependsOn: jar) {
-    main = "-jar";
-    args jar.archivePath
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.3.1'
 }
