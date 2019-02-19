@@ -1,4 +1,4 @@
-package com.yetanotherbank.api.component;
+package com.yetanotherbank.api.core.component;
 
 import org.apache.commons.configuration2.Configuration;
 import org.jooq.DSLContext;

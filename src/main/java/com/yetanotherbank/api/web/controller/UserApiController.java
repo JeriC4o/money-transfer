@@ -1,8 +1,7 @@
 package com.yetanotherbank.api.web.controller;
 
-import com.yetanotherbank.api.binding.Dao;
-import com.yetanotherbank.api.component.DatabaseConnector;
-import com.yetanotherbank.api.service.DaoContext;
+import com.yetanotherbank.api.core.dao.Dao;
+import com.yetanotherbank.api.core.dao.DaoContext;
 import com.yetanotherbank.api.web.RouteConfiguration;
 import com.yetanotherbank.api.web.util.JsonWebUtils;
 import org.jooq.generated.public_.tables.daos.MtUserDao;
@@ -11,22 +10,18 @@ import spark.Service;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.UUID;
 
 @Singleton
 public class UserApiController implements RouteConfiguration {
 
     private JsonWebUtils jsonWebUtils;
     private DaoContext<MtUserDao> userDaoContext;
-    private DatabaseConnector dc;
 
     @Inject
     public UserApiController(JsonWebUtils jsonWebUtils,
-                             @Dao(MtUserDao.class) DaoContext<MtUserDao> userDaoContext,
-                             DatabaseConnector dc) {
+                             @Dao(MtUserDao.class) DaoContext<MtUserDao> userDaoContext) {
         this.jsonWebUtils = jsonWebUtils;
         this.userDaoContext = userDaoContext;
-        this.dc = dc;
     }
 
     @Override

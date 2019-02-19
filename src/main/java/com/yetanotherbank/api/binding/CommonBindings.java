@@ -1,7 +1,7 @@
 package com.yetanotherbank.api.binding;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yetanotherbank.api.component.ConfigurationLoader;
+import com.yetanotherbank.api.core.component.ConfigurationLoader;
 import dagger.Module;
 import dagger.Provides;
 import org.apache.commons.configuration2.Configuration;

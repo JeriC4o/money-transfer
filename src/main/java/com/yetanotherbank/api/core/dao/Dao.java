@@ -1,4 +1,4 @@
-package com.yetanotherbank.api.binding;
+package com.yetanotherbank.api.core.dao;
 
 import org.jooq.impl.DAOImpl;
 

@@ -25,6 +25,5 @@ public class WebApplicationServer {
         sparkServer.port(8080);
         sparkServer.before("/", "application/json", jsonWebUtils.filter());
         routeConfigurationSet.forEach(c -> c.configure(sparkServer));
-
     }
 }
