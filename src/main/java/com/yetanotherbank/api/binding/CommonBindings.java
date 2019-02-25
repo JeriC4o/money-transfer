@@ -1,6 +1,8 @@
 package com.yetanotherbank.api.binding;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.yetanotherbank.api.core.component.ConfigurationLoader;
 import dagger.Module;
 import dagger.Provides;
@@ -15,7 +17,9 @@ public class CommonBindings {
     @Provides
     @Singleton
     public static ObjectMapper mapper() {
-        return new ObjectMapper();
+        return new ObjectMapper()
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .setDateFormat(new StdDateFormat());
     }
 
     @Provides

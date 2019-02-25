@@ -12,39 +12,35 @@ create table MT_ACCOUNT (
   ID uuid not null ,
   USER_ID uuid not null ,
   BALLANCE decimal(10, 2) not null default 0,
-  CURRENCY_ID uuid not null ,
-  primary key (ID)
-);
-
-create table MT_CURRENCY (
-  ID uuid not null ,
-  NAME varchar(255) not null ,
-  SIGN varchar(10) not null ,
+  CURRENCY_CODE varchar(10) not null ,
   primary key (ID)
 );
 
 create table MT_CURRENCY_COURSE (
-  FROM_CURRENCY_ID uuid not null ,
-  TO_CURRENCY_ID uuid not null ,
+  FROM_CURRENCY_CODE varchar(10) not null ,
+  TO_CURRENCY_CODE varchar(10) not null ,
   CORRECTION double precision not null ,
-  primary key (FROM_CURRENCY_ID, TO_CURRENCY_ID)
+  primary key (FROM_CURRENCY_CODE, TO_CURRENCY_CODE)
 );
 
 create table MT_TRANSACTION (
   ID uuid not null ,
-  USER_ID uuid not null ,
-  FROM_ACCOUNT_ID uuid not null ,
-  TO_ACCOUNT_ID uuid not null ,
-  AMMOUNT decimal(10, 2) not null ,
+  USER_ID uuid not null,
   primary key (ID)
 );
 
-alter table MT_ACCOUNT add constraint FK_MT_ACCOUNT_USER foreign key (USER_ID) references MT_USER(ID);
-alter table MT_ACCOUNT add constraint FK_MT_ACCOUNT_CURRENCY foreign key (CURRENCY_ID) references MT_CURRENCY(ID);
+create table MT_TRANSACTION_LOG  (
+  TRANSACTION_ID uuid not null ,
+  USER_ID uuid not null,
+  ACCOUNT_ID uuid not null ,
+  AMOUNT decimal(10, 2) not null ,
+  primary key (ACCOUNT_ID, TRANSACTION_ID)
+);
 
-alter table MT_CURRENCY_COURSE add constraint FK_MT_CURRENCY_COURSE_CURRENCY_FROM foreign key (FROM_CURRENCY_ID) references MT_CURRENCY(ID);
-alter table MT_CURRENCY_COURSE add constraint FK_MT_CURRENCY_COURSE_CURRENCY_TO foreign key (TO_CURRENCY_ID) references MT_CURRENCY(ID);
+alter table MT_ACCOUNT add constraint FK_MT_ACCOUNT_USER foreign key (USER_ID) references MT_USER(ID) ON DELETE CASCADE;
 
-alter table MT_TRANSACTION add constraint FK_MT_TRANSACTION_USER foreign key (USER_ID) references MT_USER(ID);
-alter table MT_TRANSACTION add constraint FK_MT_TRANSACTION_ACCOUNT_FROM foreign key (FROM_ACCOUNT_ID) references MT_ACCOUNT(ID);
-alter table MT_TRANSACTION add constraint FK_MT_TRANSACTION_ACCOUNT_TO foreign key (TO_ACCOUNT_ID) references MT_ACCOUNT(ID);
+alter table MT_TRANSACTION add constraint FK_MT_TRANSACTION_USER foreign key (USER_ID) references MT_USER(ID) ON DELETE CASCADE ;
+
+alter table MT_TRANSACTION_LOG add constraint FK_MT_TRANSACTION_LOG_ACCOUNT foreign key (ACCOUNT_ID) references MT_ACCOUNT(ID) ON DELETE CASCADE;
+alter table MT_TRANSACTION_LOG add constraint FK_MT_TRANSACTION_LOG_USER foreign key (USER_ID) references MT_USER(ID) ON DELETE CASCADE;
+alter table MT_TRANSACTION_LOG add constraint FK_MT_TRANSACTION_LOG_TRANSACTION foreign key (TRANSACTION_ID) references MT_TRANSACTION(ID) ON DELETE CASCADE ;

@@ -30,17 +30,23 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.8.1'
     compile 'org.apache.commons:commons-configuration2:2.4'
     compile 'commons-beanutils:commons-beanutils:1.9.3'
+    compile 'commons-dbutils:commons-dbutils:1.7'
     compile 'commons-io:commons-io:2.6'
     compile 'org.slf4j:slf4j-simple:1.7.13'
     compile 'org.jooq:jooq:3.11.9'
     compile 'com.h2database:h2:1.4.193'
+    compile 'com.squareup.retrofit2:retrofit:2.5.0'
+    compile 'com.squareup.retrofit2:converter-jackson:2.5.0'
+    compile 'com.neovisionaries:nv-i18n:1.23'
+    compile 'org.apache.commons:commons-dbcp2:2.6.0'
+
 
     annotationProcessor 'com.google.dagger:dagger-compiler:2.12'
+    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.12'
 
     jooqRuntime 'com.h2database:h2:1.4.193'
 
     testCompile 'junit:junit:4.12'
-
 }
 
 task generateConnectionProperties() doLast {
@@ -57,7 +63,7 @@ task generateConnectionProperties() doLast {
     generatedPropertiesPath.withWriter { Writer w -> props.store(w, null) }
 }
 
-task start(type: JavaExec, dependsOn: jar) {
+task start(type: JavaExec, dependsOn: [assemble, jar]) {
     main = "-jar";
     args jar.archivePath
 }
@@ -73,6 +79,7 @@ idea {
     }
 }
 
+//UberJar
 jar {
     manifest {
         attributes "Main-Class": "com.yetanotherbank.api.ApplicationBootstrapper"
@@ -116,6 +123,31 @@ jooq {
             }
             generate {
                 daos = true
+            }
+        }
+    }
+}
+
+test {
+    outputs.upToDateWhen { false }
+
+    reports {
+        junitXml.enabled = false
+        html.enabled = true
+    }
+
+    testLogging {
+        events "passed", "skipped", "failed"
+        showExceptions true
+        showCauses true
+        showStackTraces true
+
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
             }
         }
     }
