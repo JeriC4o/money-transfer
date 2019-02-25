@@ -152,4 +152,7 @@ test {
             }
         }
     }
+
+    include 'com/yetanotherbank/api/suit/*'
+    exclude 'com/yetanotherbank/api/test/*Test'
 }
