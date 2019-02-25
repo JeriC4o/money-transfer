@@ -13,7 +13,7 @@ Simple project task , provides RESTful API for money transfer operations
 - Retrofit 2 (API Client)
 
 ### Howto 
-run
+run application
 ```sh
 gradle start
 ```
