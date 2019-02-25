@@ -25,7 +25,7 @@ gradle test
 
 ### Available APIs
 
-####User API
+#### User API
 
 | HTTP METHOD | PATH | USAGE |
 | -----------| ------ | ------ |
@@ -36,7 +36,7 @@ gradle test
 | POST | /user | update user | 
 | DELETE | /user/{id} | delete user by id | 
 
-####Account API (see com.yetanotherbank.api.client.AccountServiceApi)
+#### Account API (see com.yetanotherbank.api.client.AccountServiceApi)
 
 | HTTP METHOD | PATH | USAGE |
 | -----------| ------ | ------ |
@@ -46,7 +46,7 @@ gradle test
 | POST | /account | update account | 
 | DELETE | /account/{id} | delete account by id | 
 
-####Currency API (see com.yetanotherbank.api.client.CurrencyServiceApi)
+#### Currency API (see com.yetanotherbank.api.client.CurrencyServiceApi)
 
 | HTTP METHOD | PATH | USAGE |
 | -----------| ------ | ------ |
@@ -56,7 +56,7 @@ gradle test
 | POST | /currency-course | update currency course | 
 | DELETE | /currency-course/delete | delete currency course | 
 
-####Transactions API (see com.yetanotherbank.api.client.TransactionServiceApi)
+#### Transactions API (see com.yetanotherbank.api.client.TransactionServiceApi)
 
 | HTTP METHOD | PATH | USAGE |
 | -----------| ------ | ------ |
