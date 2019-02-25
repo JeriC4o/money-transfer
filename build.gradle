@@ -129,6 +129,7 @@ jooq {
 }
 
 test {
+    dependsOn assemble, jar
     outputs.upToDateWhen { false }
 
     reports {
