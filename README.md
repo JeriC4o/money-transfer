@@ -32,7 +32,7 @@ gradle test
 | GET | /users/{id} | get user by id | 
 | GET | /users/byEmail/{email} | get user by email | 
 | GET | /users | get all users | 
-| POST | /users | create a new user | 
+| POST | /users/ | create a new user | 
 | PUT | /users/{id} | update user | 
 | DELETE | /users/{id} | delete user by id | 
 
@@ -42,7 +42,7 @@ gradle test
 | -----------| ------ | ------ |
 | GET | /accounts/{id} | get account by id | 
 | GET | /accounts | get all accounts | 
-| POST | /accounts | create a new account | 
+| POST | /accounts/ | create a new account | 
 | PUT | /accounts/{id} | update account | 
 | DELETE | /accounts/{id} | delete account by id | 
 
