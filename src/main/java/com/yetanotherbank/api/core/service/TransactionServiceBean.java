@@ -24,11 +24,11 @@ import java.util.UUID;
 @Singleton
 public class TransactionServiceBean implements TransactionService {
 
-    private DaoContext<MtAccountDao> accountDaoContext;
-    private DaoContext<MtTransactionDao> transactionDaoContext;
-    private DaoContext<MtTransactionLogDao> transactionLogDaoContext;
-    private DaoContext<MtCurrencyCourseDaoExtended> currencyCourseDaoContext;
-    private DatabaseConnector databaseConnector;
+    private final DaoContext<MtAccountDao> accountDaoContext;
+    private final DaoContext<MtTransactionDao> transactionDaoContext;
+    private final DaoContext<MtTransactionLogDao> transactionLogDaoContext;
+    private final DaoContext<MtCurrencyCourseDaoExtended> currencyCourseDaoContext;
+    private final DatabaseConnector databaseConnector;
 
     @Inject
     public TransactionServiceBean(
