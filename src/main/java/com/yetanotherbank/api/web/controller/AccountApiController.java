@@ -29,13 +29,17 @@ public class AccountApiController implements RouteConfiguration {
 
     @Override
     public void configure(Service sparkService) {
-        sparkService.path("/account", () -> {
+        sparkService.path("/accounts", () -> {
+            sparkService.get("", jsonWebUtils.response((req, res) ->
+                accountDaoContext.apply(dao ->
+                    new DefaultCollectionResponse<>(dao.findAll()))));
+
             sparkService.get("/:id",
                     jsonWebUtils.response((req, res) ->
                             accountDaoContext.apply(dao ->
                                     new DefaultResponse<>(dao.findById(UUID.fromString(req.params("id")))))));
 
-            sparkService.put("/",
+            sparkService.post("/",
                     jsonWebUtils.response((req, res) ->
                             accountDaoContext.apply(dao -> {
                                 MtAccount accountForCreate = jsonWebUtils.extractFromBody(req, MtAccount.class);
@@ -44,10 +48,11 @@ public class AccountApiController implements RouteConfiguration {
                                 return new DefaultResponse<>(accountForCreate);
                             })));
 
-            sparkService.post("/",
+            sparkService.put("/:id",
                     jsonWebUtils.response((req, res) ->
                             accountDaoContext.apply(dao -> {
                                 MtAccount accountForUpdate = jsonWebUtils.extractFromBody(req, MtAccount.class);
+                                accountForUpdate.setId(UUID.fromString(req.params("id")));
                                 dao.update(accountForUpdate);
                                 return new DefaultResponse<>(accountForUpdate);
                             })));
@@ -60,9 +65,5 @@ public class AccountApiController implements RouteConfiguration {
                                 return new DefaultResponse<>(id);
                             })));
         });
-
-        sparkService.get("/accounts", jsonWebUtils.response((req, res) ->
-                accountDaoContext.apply(dao ->
-                        new DefaultCollectionResponse<>(dao.findAll()))));
     }
 }

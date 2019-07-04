@@ -29,22 +29,22 @@ gradle test
 
 | HTTP METHOD | PATH | USAGE |
 | -----------| ------ | ------ |
-| GET | /user/{id} | get user by id | 
-| GET | /user/{email} | get user by email | 
+| GET | /users/{id} | get user by id | 
+| GET | /users/{email} | get user by email | 
 | GET | /users | get all users | 
-| PUT | /user | create a new user | 
-| POST | /user | update user | 
-| DELETE | /user/{id} | delete user by id | 
+| POST | /users | create a new user | 
+| PUT | /users/{id} | update user | 
+| DELETE | /users/{id} | delete user by id | 
 
 #### Account API (see com.yetanotherbank.api.client.AccountServiceApi)
 
 | HTTP METHOD | PATH | USAGE |
 | -----------| ------ | ------ |
-| GET | /account/{id} | get account by id | 
+| GET | /accounts/{id} | get account by id | 
 | GET | /accounts | get all accounts | 
-| PUT | /account | create a new account | 
-| POST | /account | update account | 
-| DELETE | /account/{id} | delete account by id | 
+| POST | /accounts | create a new account | 
+| PUT | /accounts/{id} | update account | 
+| DELETE | /accounts/{id} | delete account by id | 
 
 #### Currency API (see com.yetanotherbank.api.client.CurrencyServiceApi)
 

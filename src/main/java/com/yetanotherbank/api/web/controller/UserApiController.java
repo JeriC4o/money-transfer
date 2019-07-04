@@ -29,7 +29,12 @@ public class UserApiController implements RouteConfiguration {
 
     @Override
     public void configure(Service sparkService) {
-        sparkService.path("/user", () -> {
+        sparkService.path("/users", () -> {
+
+            sparkService.get("", jsonWebUtils.response((req, res) ->
+                userDaoContext.apply(userDao ->
+                    new DefaultCollectionResponse<>(userDao.findAll()))));
+
             sparkService.get("/:id",
                     jsonWebUtils.response((req, res) ->
                             userDaoContext.apply(dao ->
@@ -40,7 +45,7 @@ public class UserApiController implements RouteConfiguration {
                             userDaoContext.apply(dao ->
                                     new DefaultResponse<>(dao.fetchOneByEmail(req.params("email"))))));
 
-            sparkService.put("/",
+            sparkService.post("/",
                     jsonWebUtils.response((req, res) ->
                             userDaoContext.apply(dao -> {
                                     MtUser userForCreate = jsonWebUtils.extractFromBody(req, MtUser.class);
@@ -49,10 +54,11 @@ public class UserApiController implements RouteConfiguration {
                                     return new DefaultResponse<>(userForCreate);
                             })));
 
-            sparkService.post("/",
+            sparkService.put("/:id",
                     jsonWebUtils.response((req, res) ->
                             userDaoContext.apply(dao -> {
                                 MtUser userForUpdate = jsonWebUtils.extractFromBody(req, MtUser.class);
+                                userForUpdate.setId(UUID.fromString(req.params("id")));
                                 dao.update(userForUpdate);
                                 return new DefaultResponse<>(userForUpdate);
                             })));
@@ -65,9 +71,5 @@ public class UserApiController implements RouteConfiguration {
                                 return new DefaultResponse<>(id);
                             })));
         });
-
-        sparkService.get("/users", jsonWebUtils.response((req, res) ->
-                userDaoContext.apply(userDao ->
-                        new DefaultCollectionResponse<>(userDao.findAll()))));
     }
 }
