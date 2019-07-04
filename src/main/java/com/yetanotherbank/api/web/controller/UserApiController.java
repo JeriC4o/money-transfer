@@ -17,8 +17,8 @@ import java.util.UUID;
 @Singleton
 public class UserApiController implements RouteConfiguration {
 
-    private JsonWebUtils jsonWebUtils;
-    private DaoContext<MtUserDao> userDaoContext;
+    private final JsonWebUtils jsonWebUtils;
+    private final DaoContext<MtUserDao> userDaoContext;
 
     @Inject
     public UserApiController(JsonWebUtils jsonWebUtils,

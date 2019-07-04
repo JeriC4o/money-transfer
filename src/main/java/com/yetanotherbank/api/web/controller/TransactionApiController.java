@@ -14,8 +14,8 @@ import javax.inject.Singleton;
 @Singleton
 public class TransactionApiController implements RouteConfiguration {
 
-    private JsonWebUtils jsonWebUtils;
-    private TransactionService transactionService;
+    private final JsonWebUtils jsonWebUtils;
+    private final TransactionService transactionService;
 
     @Inject
     public TransactionApiController(JsonWebUtils jsonWebUtils,

@@ -15,7 +15,7 @@ public class JsonWebUtils {
 
     public static final String JSON_TYPE = "application/json; charset=utf-8";
 
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
 
     @Inject
     public JsonWebUtils(ObjectMapper mapper) {

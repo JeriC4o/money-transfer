@@ -11,9 +11,9 @@ import java.util.Set;
 @Singleton
 public class WebApplicationServer {
 
-    private Configuration configuration;
-    private Set<RouteConfiguration> routeConfigurationSet;
-    private JsonWebUtils jsonWebUtils;
+    private final Configuration configuration;
+    private final Set<RouteConfiguration> routeConfigurationSet;
+    private final JsonWebUtils jsonWebUtils;
     private volatile Service sparkServer;
 
     @Inject

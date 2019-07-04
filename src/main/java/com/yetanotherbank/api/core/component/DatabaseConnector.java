@@ -25,7 +25,7 @@ public class DatabaseConnector {
     private static final String DB_USER= "database.user";
     private static final String DB_PASS = "database.pass";
 
-    private ConnectionSessionHolder sessionHolder;
+    private final ConnectionSessionHolder sessionHolder;
 
     @Inject
     public DatabaseConnector(Configuration configuration) {

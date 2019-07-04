@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
 @Singleton
 public class CurrencyApiController implements RouteConfiguration {
 
-    private JsonWebUtils jsonWebUtils;
-    private DaoContext<MtCurrencyCourseDaoExtended> currencyCourseDaoContext;
+    private final JsonWebUtils jsonWebUtils;
+    private final DaoContext<MtCurrencyCourseDaoExtended> currencyCourseDaoContext;
 
     @Inject
     public CurrencyApiController(JsonWebUtils jsonWebUtils,
