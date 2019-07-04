@@ -30,7 +30,7 @@ gradle test
 | HTTP METHOD | PATH | USAGE |
 | -----------| ------ | ------ |
 | GET | /users/{id} | get user by id | 
-| GET | /users/{email} | get user by email | 
+| GET | /users/byEmail/{email} | get user by email | 
 | GET | /users | get all users | 
 | POST | /users | create a new user | 
 | PUT | /users/{id} | update user | 
