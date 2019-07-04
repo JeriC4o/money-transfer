@@ -35,7 +35,12 @@ public class CurrencyApiController implements RouteConfiguration {
 
     @Override
     public void configure(Service sparkService) {
-        sparkService.path("/currency", () -> {
+        sparkService.path("/currencies", () -> {
+            sparkService.get("", jsonWebUtils.response((req, res) ->
+                new DefaultCollectionResponse<>(
+                    Arrays.stream(CurrencyCode.values())
+                        .filter(cc -> Objects.nonNull(cc.getCurrency()))
+                        .map(CurrencyData::new).collect(Collectors.toList()))));
             sparkService.get("/:code",
                     jsonWebUtils.response((req, res) ->
                             new DefaultResponse<>(new CurrencyData(
@@ -83,11 +88,5 @@ public class CurrencyApiController implements RouteConfiguration {
                     currencyCourseDaoContext.apply(dao ->
                             new DefaultCollectionResponse<>(dao.findAll()))));
         });
-
-        sparkService.get("/currencies", jsonWebUtils.response((req, res) ->
-                new DefaultCollectionResponse<>(
-                        Arrays.stream(CurrencyCode.values())
-                                .filter(cc -> Objects.nonNull(cc.getCurrency()))
-                .map(CurrencyData::new).collect(Collectors.toList()))));
     }
 }

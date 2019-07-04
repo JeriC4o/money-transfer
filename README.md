@@ -51,7 +51,7 @@ gradle test
 | HTTP METHOD | PATH | USAGE |
 | -----------| ------ | ------ |
 | GET | /currencies | get all supported currencies | 
-| GET | /currency/{code} | get currency by code | 
+| GET | /currencies/{code} | get currency by code | 
 | POST | /currency-course/retrieve | get currency course | 
 | POST | /currency-course | update currency course | 
 | DELETE | /currency-course/delete | delete currency course | 
